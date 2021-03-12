@@ -1,0 +1,27 @@
+---- d-assist ----
+Execute frequently used commands abbreviatedly. Adding more commands never been easier with in-file distinguished comments for self-documentation.
+
+
+Usage: d-assist    -option
+       d-assist    -option    --arg    <value>
+
+AVAILABLE COMMANDS, OPTIONS, ARGUMENTS
+``````````````````````````````````````
+// Options: workspace
+-git    Pulls, adds, commits, pushes.
+    --m     <str>  
+            Commit message. Default: 
+            "update at `date +'%y%m%d %H%M%S'`"
+    --p     <rebase|no-rebase|ff-only> 
+            Specify type of pull.  Default: merge
+    --d     <dirpath> 
+            Specify directory.
+    --v     <0|1> 
+            Verbose. Default: 1
+-now    Displays current time
+-dirs   Show sizes of directories
+    --p     <dirpath>
+            Specify directory path.
+-l      Launch programs abbreviatedly.
+    <x>     Launch xterm
+    <tx>    Launch a tabbed xterm
