@@ -1,4 +1,5 @@
-''' Codebase Automated Documentation
+''' 
+Codebase Automated Documentation
 Copyright (C) 2021 Muhammad Bin Zafar <midnightquantumprogrammer@gmail.com>
 
 This program is free software; you can redistribute it and/or
@@ -33,28 +34,28 @@ import sys, os, subprocess
 def evaluate_colors(documentation):
 	doc = documentation
 
-	#color
+	#colors
 	COLORS = {
 		# non-colors but important
 		"__file__" : __file__,      # absolute name of this file
 		"__argv0__" : sys.argv[0],  # relative name of this file
 
 
-	 "BLK": "\033[0;30m",
-	 "RED": "\033[0;31m",
-	 "GRN": "\033[0;32m",
-	 "YLW": "\033[0;33m",
-	 "BLU": "\033[0;34m",
-	 "CYN": "\033[0;36m",
-	 "WHT": "\033[0;37m",
+		"BLK": "\033[0;30m",
+		"RED": "\033[0;31m",
+		"GRN": "\033[0;32m",
+		"YLW": "\033[0;33m",
+		"BLU": "\033[0;34m",
+		"CYN": "\033[0;36m",
+		"WHT": "\033[0;37m",
 
 		#background color: add 10 to the main color
-	 "BLKBG": "\033[0;40m",
-	 "REDBG": "\033[0;41m",
-	 "GRNBG": "\033[0;42m",
-	 "BLUBG": "\033[0;44m",
-	 "YLWBG": "\033[0;103m",
-	 "CYNBG": "\033[0;106m",
+		"BLKBG": "\033[0;40m",
+		"REDBG": "\033[0;41m",
+		"GRNBG": "\033[0;42m",
+		"BLUBG": "\033[0;44m",
+		"YLWBG": "\033[0;103m",
+		"CYNBG": "\033[0;106m",
 
 		#bright: add 30 to the main color
 		"BCYN" : "\033[0;96m",
@@ -111,7 +112,7 @@ def self_document(filename, tabwidth=2):
 		i+=1
 	
 	documentation = evaluate_colors(documentation)
-	print(documentation)
+	print(documentation, end="")
 
 
 
@@ -126,6 +127,7 @@ if __name__ == '__main__':
 	else:
 		self_document(__file__)
 	'''0
+
 
 	Usage:  python3  {__argv0__}  <filename>
 	'''
