@@ -4,8 +4,3 @@
 - flexible enough to view __all/most documentation format__
 
 
-> Extremely Simple Format 
-
-You can set any:
-- `tokenstart`
-- ``
