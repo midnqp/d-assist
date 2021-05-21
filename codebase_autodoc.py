@@ -24,7 +24,7 @@ import sys, os, subprocess
 
 
 '''4
-{ULINE}Original Author{R0}: {BLUBG}@midnqp{R0}
+{ULINE}Original Author{R0}: {BLUBG}midnqp{R0}
 {ULINE}Initial Write{R0}  : Feb 21
 {ULINE}License{R0}        : GPLv2
 '''
@@ -61,8 +61,10 @@ def evaluate_colors(documentation):
 		"BCYN" : "\033[0;96m",
 
 		#effects
+		""   : "\033[0;0m",   # same as R0 - RESET all text effects
 		"R0" : "\033[0;0m",
-		"ULINE" : "\033[0;4m",
+		"UL" : "\033[0;4m",   # same as underline
+		"ULINE" : "\033[0;4m", 
 	}
 
  
@@ -75,14 +77,13 @@ def evaluate_colors(documentation):
 
 
 
-def self_document(filename, tabwidth=2):
+def self_document(filename, ts="  '''  ", te = "  '''  ", ts2 = "#", tabwidth=2):
 	# default indentation of your source code is assumed: tabs
 
 
 	f = filename
-	# default tabwidth = 2
-	ts = "		'''		".strip()		#token start
-	te = "		'''		".strip()		#token end
+	ts = ts.strip()		#token start
+	te = te.strip()		#token end
 	c = open(f, "r").read().split("\n")		#corpora array, each line
 	documentation = ''
 
@@ -118,16 +119,23 @@ def self_document(filename, tabwidth=2):
 
 
 if __name__ == '__main__':
-	if len(sys.argv) > 1:
+	try:
 		filename = sys.argv[1]
-		if (os.path.isfile(filename)):
+		try: 
+			# Trying for Usage 2
+			ts = sys.argv[2]
+			te = sys.argv[3]
+			ts2 = sys.argv[4]
+			self_document(filename, ts, te, ts2)
+		except:
+			# Usage 1
 			self_document(filename)
-		else:
-			print(f"{RED}[ERROR]{R0} {filename} is not accessible.")
-	else:
+	except:
+		# No <filename> given
 		self_document(__file__)
 	'''0
 
 
 	Usage:  python3  {__argv0__}  <filename>
+	        python3  {__argv0__}  <filename>  [ts]  [te]  [ts2]
 	'''
