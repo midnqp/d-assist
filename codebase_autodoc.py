@@ -17,24 +17,22 @@ along with this program; if not, see <http://gnu.org/licenses/>
 '''
 
 
+
+
 import sys, os, subprocess
-'''0
---------{GRN} codebase-autodoc {R0}-------- 
-'''
 
 
+#0 --------{GRN} codebase-autodoc {R0}-------- 
 '''4
-{ULINE}Original Author{R0}: {BLUBG}midnqp{R0}
-{ULINE}Initial Write{R0}  : Feb 21
-{ULINE}License{R0}        : GPLv2
+{UL}Original Author{R0}: {BLUBG}midnqp{R0}
+{UL}Initial Write{R0}  : Feb 21
+{UL}License{R0}        : GPLv2
 '''
 
 
 
 def evaluate_colors(documentation):
 	doc = documentation
-
-	#colors
 	COLORS = {
 		# non-colors but important
 		"__file__" : __file__,      # absolute name of this file
@@ -49,6 +47,7 @@ def evaluate_colors(documentation):
 		"CYN": "\033[0;36m",
 		"WHT": "\033[0;37m",
 
+
 		#background color: add 10 to the main color
 		"BLKBG": "\033[0;40m",
 		"REDBG": "\033[0;41m",
@@ -57,13 +56,15 @@ def evaluate_colors(documentation):
 		"YLWBG": "\033[0;103m",
 		"CYNBG": "\033[0;106m",
 
+
 		#bright: add 30 to the main color
 		"BCYN" : "\033[0;96m",
 
+
 		#effects
-		""   : "\033[0;0m",   # same as R0 - RESET all text effects
+		""   : "\033[0;0m",  
 		"R0" : "\033[0;0m",
-		"UL" : "\033[0;4m",   # same as underline
+		"UL" : "\033[0;4m", 
 		"ULINE" : "\033[0;4m", 
 	}
 
@@ -77,41 +78,100 @@ def evaluate_colors(documentation):
 
 
 
-def self_document(filename, ts="  '''  ", te = "  '''  ", ts2 = "#", tabwidth=2):
-	# default indentation of your source code is assumed: tabs
+def document(ts, te, ts2):
+	global documentation, i, iot, c  # using these already 'global'-declared global vars
+	global tabwidth   # new variable for document() scope
+	tabwidth = tw     
 
+	error = False
+	useTs = False
+	useTs2 = False
+
+
+	## ts2 :: Trying for single-line comments' token
+	try: 
+		ci = c[i]
+		ciFwd = ci.index(ts2)+len(ts2)  #forward
+		#isTs2 =  c[i][ciFwd - len(ts2): c[i].index(" ", ciFwd)].strip()
+		indent = int(ci[ciFwd: ci.index(' ', ciFwd)])
+		error = False
+		useTs2 = True
+	except : error = True
+
+
+	## ts :: Trying for multi-line comments' token
+	if error == True:
+		try: 
+			ci = c[i].strip()
+			#print(f"Using Ts: {c[i]}  {int(c[i].strip()[len(ts):])}")
+			indent = ci[len(ts) : ]
+			isTs = ci[ci.index(ts) : ci.index(indent)]
+			#print(f"isTs  ----------- <{isTs}>")
+			if isTs == ts:
+				#print(f"ts indent: -{indent}-  ={ci.strip()[:ci.index(indent)]}=")
+				useTs= True
+				error = False
+		except Exception as e: 
+			error = True
+
+	
+	if error == True: indent = -1
+
+	
+
+	if useTs == True and indent != -1:
+		j = i
+		while j < len(c):
+			# This loop documents anything after 
+			# the nextline of token-start until 
+			# beforeline of token-end.
+			line = c[j+1].replace("\t", " "*tabwidth)
+			if te in line: break
+			else: 
+				documentation += " "*int(indent) 
+				documentation += line[iot*tabwidth : ]
+				documentation += "\n"
+			j+=1
+	elif useTs2 == True and indent !=-1:
+		line = c[i].replace("\t", " "*tabwidth)
+		documentation += " "*indent  
+		lineForward = iot*tabwidth  + len(ts2) + len(str(indent)) + 1 
+		documentation += line[lineForward: ]    
+		documentation += "\n"
+
+
+
+
+
+
+def self_document(filename, ts="  '''  ", te = "  '''  ", ts2 = "#", tabwidth=2):
+	# CONSTRAINT \\\ Source code must be indented by tabs
 
 	f = filename
+	global c
+	global documentation
+	global iot
+	global tw
+	global i
+	
 	ts = ts.strip()		#token start
+	ts2 = ts2.strip() #token start 2
 	te = te.strip()		#token end
-	c = open(f, "r").read().split("\n")		#corpora array, each line
+	tw = tabwidth
 	documentation = ''
+	c = open(f, "r").read().split("\n")		
+	#corpora array of file, separated by newline
 
 	i=0
 	while i < len(c):
 		# c[i] is each line of the file, in array
 		iot = c[i].find(ts)					#index of the token-start
-		try:
-			indent = int(c[i].strip()[len(ts) : ]) - (iot*tabwidth)
-		except: 
-			# No indent specified -- just ordinary programmers' commentry. Not part of the doc
-			indent = -1 
-		if iot >= 0 and indent != -1:
-			j = i
-			while j < len(c):
-				# This loop documents anything after 
-				# the nextline of token-start until 
-				# beforeline of token-end.
-
-				line = c[j+1].replace("\t", " "*tabwidth)
-				if te in line: break
-				else: 
-					documentation += " "*indent
-					documentation += line[iot*tabwidth : ]
-					documentation += "\n"
-				j+=1
+		if (iot >= 0): 
+			document(ts, te, ts2)
+		else:
+			iot = c[i].find(ts2)
+			if (iot >= 0): document(ts, te, ts2)
 		i+=1
-	
 	documentation = evaluate_colors(documentation)
 	print(documentation, end="")
 
@@ -133,9 +193,11 @@ if __name__ == '__main__':
 	except:
 		# No <filename> given
 		self_document(__file__)
-	'''0
 
 
-	Usage:  python3  {__argv0__}  <filename>
-	        python3  {__argv0__}  <filename>  [ts]  [te]  [ts2]
-	'''
+		'''0
+		
+		
+		Usage:  python3  {__argv0__}  <filename>
+						python3  {__argv0__}  <filename>  [ts]  [te]  [ts2]
+		'''
