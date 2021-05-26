@@ -1,3 +1,4 @@
+
 # `codebase-autodoc`
 ![](https://raw.githubusercontent.com/midnqp/midnqp/main/cdn/autodocReadme1.png)
 
@@ -38,7 +39,7 @@ void* print_incoming_conn_req(void* uSend, void* shkey);
 ![](https://raw.githubusercontent.com/midnqp/midnqp/main/cdn/autodocReadme2.png)
 
 ## FORMAT
-1. Tokens for _single-line `ts2`_ or _multi-line `ts`  `te`_ comments vary upon languages.
+1. Tokens for _single-line `ts2`_ or _multi-line `ts`  `te`_ comments vary upon languages, and all are supported.
 
 |Language|ts|te|ts2|
 |--------|--|--|---|
@@ -57,3 +58,4 @@ Multi-line comment
 ```
 3. Colors and text manipulations are supported.
 	- `GRNBG` `REDBG` `BLU` `ULINE` `BOLD` etc. are for text manipulation and colors.
+

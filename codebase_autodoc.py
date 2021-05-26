@@ -39,22 +39,22 @@ def evaluate_colors(documentation):
 		"__argv0__" : sys.argv[0],  # relative name of this file
 
 
-		"BLK": "\033[0;30m",
-		"RED": "\033[0;31m",
-		"GRN": "\033[0;32m",
-		"YLW": "\033[0;33m",
-		"BLU": "\033[0;34m",
-		"CYN": "\033[0;36m",
-		"WHT": "\033[0;37m",
+		"BLK": "\033[30m",
+		"RED": "\033[31m",
+		"GRN": "\033[32m",
+		"YLW": "\033[33m",
+		"BLU": "\033[34m",
+		"CYN": "\033[36m",
+		"WHT": "\033[37m",
 
 
 		#background color: add 10 to the main color
-		"BLKBG": "\033[0;40m",
-		"REDBG": "\033[0;41m",
-		"GRNBG": "\033[0;42m",
-		"BLUBG": "\033[0;44m",
-		"YLWBG": "\033[0;103m",
-		"CYNBG": "\033[0;106m",
+		"BLKBG": "\033[40m",
+		"REDBG": "\033[41m",
+		"GRNBG": "\033[42m",
+		"BLUBG": "\033[44m",
+		"YLWBG": "\033[103m",
+		"CYNBG": "\033[106m",
 
 
 		#bright: add 30 to the main color
@@ -64,8 +64,9 @@ def evaluate_colors(documentation):
 		#effects
 		""   : "\033[0;0m",  
 		"R0" : "\033[0;0m",
-		"UL" : "\033[0;4m", 
-		"ULINE" : "\033[0;4m", 
+		"BOLD" : "\033[1m",
+		"UL" : "\033[4m", 
+		"ULINE" : "\033[4m", 
 	}
 
  
